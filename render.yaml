@@ -7,8 +7,13 @@ services:
     envVars:
       - key: RUST_LOG
         value: "info"
-    plan: free  # Change to 'standard' for production
+      - key: TERM
+        value: "xterm-256color"
+    plan: free
     numInstances: 1
-    regions: ["oregon"]  # Choose your preferred region
-    healthCheckPath: /  # Basic health check path
-    autoDeploy: true  # Auto-deploy on push to main branch
+    regions: ["oregon"]
+    healthCheckPath: /nonexistent
+    healthCheckTimeoutSeconds: 5
+    healthCheckIntervalSeconds: 10
+    healthCheckThreshold: 3
+    autoDeploy: true
