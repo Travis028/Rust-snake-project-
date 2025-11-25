@@ -1,74 +1,90 @@
 # Rust Snake Game
 
-A classic Snake game implemented in Rust using the crossterm library for terminal input handling.
+A classic Snake game implemented in Rust, featuring terminal-based graphics and simple controls. This implementation uses the `crossterm` crate for cross-platform terminal handling.
+
+## Features
+
+- Classic Snake gameplay with score tracking
+- Smooth terminal-based rendering
+- Cross-platform support (Windows, macOS, Linux)
+- Simple and intuitive controls
+- Configurable game speed and board size
 
 ## Prerequisites
 
-- Docker (for local development and deployment)
-- Git (for version control)
-- A Render.com account (for deployment)
+- Rust (latest stable version recommended)
+- Cargo (Rust's package manager)
+- A terminal that supports ANSI escape codes
+- Docker (for containerized deployment)
 
-## Local Development
+## Building from Source
 
 1. Clone the repository:
    ```bash
-   git clone <your-repository-url>
-   cd rustysnake-project
+   git clone https://github.com/yourusername/rust-snake-game.git
+   cd rust-snake-game/rustysnake-game
    ```
 
-2. Build and run with Docker:
+2. Build the project:
    ```bash
-   cd rustysnake-game
-   docker build -t rustysnake .
-   docker run -it --rm rustysnake
+   cargo build --release
    ```
 
-## Deployment to Render
+3. Run the game:
+   ```bash
+   cargo run --release
+   ```
 
-### Prerequisites
-- A GitHub/GitLab account with the repository pushed
-- A Render.com account
+## How to Play
 
-### Steps
-
-1. **Push your code** to a GitHub or GitLab repository
-
-2. **Sign in to Render**
-   - Go to [https://dashboard.render.com/](https://dashboard.render.com/)
-   - Sign up or log in
-
-3. **Create a new Web Service**
-   - Click "New" and select "Web Service"
-   - Connect your GitHub/GitLab account if not already connected
-   - Select your repository
-
-4. **Configure the service**
-   - Name: `rustysnake-game` (or your preferred name)
-   - Region: Choose the one closest to your users
-   - Branch: `main` (or your default branch)
-   - Build Command: `.` (dot)
-   - Start Command: (leave empty, using Dockerfile's ENTRYPOINT)
-   - Plan: Select "Free" for testing or "Standard" for production
-
-5. **Deploy**
-   - Click "Create Web Service"
-   - Render will automatically build and deploy your application
-   - The deployment logs will be visible in the dashboard
-
-6. **Access your game**
-   - Once deployed, you'll get a URL like `https://rustysnake-xxxx.onrender.com`
-   - The game will be accessible via web terminal
-
-## Game Controls
-- Use arrow keys to control the snake
-- Eat the food (`*`) to grow
+- Use arrow keys to control the snake's direction
+- Eat the food (`*`) to grow longer and increase your score
 - Avoid hitting the walls or yourself
-- Press `q` to quit the game
+- Press `q` to quit the game at any time
 
-## Troubleshooting
-- If the build fails, check the logs in the Render dashboard
-- Ensure all required files are included in your repository
-- Check that the Dockerfile and render.yaml are in the correct locations
+## Docker Support
+
+Build and run using Docker:
+
+```bash
+docker build -t rustysnake .
+docker run -it --rm rustysnake
+```
+
+## Deployment on Render
+
+This game can be deployed to [Render](https://render.com) with minimal configuration:
+
+1. Push your code to a GitHub/GitLab repository
+2. Create a new Web Service on Render
+3. Connect your repository
+4. Use the provided `render.yaml` for configuration
+5. Deploy
+
+The game will be accessible via web terminal in your browser.
+
+## Running Tests
+
+```bash
+cargo test
+```
 
 ## License
-[MIT](LICENSE)
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
+
+## Contact
+
+Your Name - [@yourtwitter](https://twitter.com/yourtwitter) - your.email@example.com
+
+Project Link: [https://github.com/yourusername/rust-snake-game](https://github.com/yourusername/rust-snake-game)
+
+## Acknowledgments
+
+- [crossterm](https://crates.io/crates/crossterm) for cross-platform terminal handling
+- [rand](https://crates.io/crates/rand) for random number generation
+- All the Rust contributors for an amazing language!
