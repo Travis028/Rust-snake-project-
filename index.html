@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rusty Snake Game</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            background-color: #1a1a1a;
+            color: #00ff00;
+            font-family: 'Courier New', monospace;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+        }
+        
+        .game-container {
+            text-align: center;
+        }
+        
+        h1 {
+            color: #00ff00;
+            text-shadow: 0 0 10px #00ff00;
+            margin-bottom: 20px;
+        }
+        
+        #gameCanvas {
+            border: 2px solid #00ff00;
+            background-color: #000;
+            box-shadow: 0 0 20px #00ff00;
+        }
+        
+        .score {
+            font-size: 24px;
+            margin: 20px 0;
+            color: #00ff00;
+        }
+        
+        .controls {
+            margin: 20px 0;
+            color: #ccc;
+        }
+        
+        .game-over {
+            color: #ff0000;
+            font-size: 28px;
+            font-weight: bold;
+            margin: 20px 0;
+            text-shadow: 0 0 10px #ff0000;
+        }
+        
+        button {
+            background-color: #00ff00;
+            color: #000;
+            border: none;
+            padding: 10px 20px;
+            font-family: 'Courier New', monospace;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            margin: 10px;
+        }
+        
+        button:hover {
+            background-color: #00cc00;
+            box-shadow: 0 0 10px #00ff00;
+        }
+    </style>
+    </head>
+<body>
+    <div class="game-container">
+        <h1>🐍 Rusty Snake Game</h1>
+        <div class="score">Score: <span id="score">0</span></div>
+        <canvas id="gameCanvas" width="400" height="300"></canvas>
+        <div id="gameOver" class="game-over" style="display: none;">
+            GAME OVER!
+        </div>
+        <div class="controls">
+            <p>Use WASD or Arrow Keys to move</p>
+            <button onclick="restartGame()">Restart Game (R)</button>
+            <button onclick="showInstructions()">Instructions</button>
+        </div>
+    </div>
+
+    <script>
+        const canvas = document.getElementById('gameCanvas');
+        const ctx = canvas.getContext('2d');
+        const scoreElement = document.getElementById('score');
+        const gameOverElement = document.getElementById('gameOver');
+
+        // Game constants
+        const GRID_SIZE = 20;
+        const GAME_WIDTH = canvas.width;
+        const GAME_HEIGHT = canvas.height;
+        const GRID_WIDTH = GAME_WIDTH / GRID_SIZE;
+        const GRID_HEIGHT = GAME_HEIGHT / GRID_SIZE;
+
+        // Game state
+        let snake = [];
+        let food = {};
+        let direction = { x: 1, y: 0 };
+        let score = 0;
+        let gameOver = false;
+        let gameSpeed = 150;
+
+        function initGame() {
+            snake = [
+                { x: Math.floor(GRID_WIDTH / 2), y: Math.floor(GRID_HEIGHT / 2) }
+            ];
+            placeFood();
+            score = 0;
+            gameOver = false;
+            direction = { x: 1, y: 0 };
+            scoreElement.textContent = score;
+            gameOverElement.style.display = 'none';
+        }
+
+        function placeFood() {
+            food = {
+                x: Math.floor(Math.random() * GRID_WIDTH),
+                y: Math.floor(Math.random() * GRID_HEIGHT)
+            };
+            
+            // Make sure food doesn't spawn on snake
+            for (let segment of snake) {
+                if (segment.x === food.x && segment.y === food.y) {
+                    placeFood();
+                    return;
+                }
+            }
+        }
+
+        function update() {
+            if (gameOver) return;
+
+            // Calculate new head position
+            const head = { ...snake[0] };
+            head.x += direction.x;
+            head.y += direction.y;
+
+            // Check wall collision
+            if (head.x < 0 || head.x >= GRID_WIDTH || head.y < 0 || head.y >= GRID_HEIGHT) {
+                gameOver = true;
+                gameOverElement.style.display = 'block';
+                return;
+            }
+
+            // Move snake 
+            snake.unshift(head);
+
+            // Check food collision
+            if (head.x === food.x && head.y === food.y) {
+                score += 10;
+                scoreElement.textContent = score;
+                placeFood();
+                
+                // Increase speed slightly
+                if (gameSpeed > 50) {
+                    gameSpeed -= 2;
+                }
+            } else {
+                snake.pop();
+            }
+        }
+
+        function draw() {
+            // Clear canvas
+            ctx.fillStyle = '#000';
+            ctx.fillRect(0, 0, GAME_WIDTH, GAME_HEIGHT);
+
+            // Draw snake
+            snake.forEach((segment, index) => {
+                ctx.fillStyle = index === 0 ? '#00ff00' : '#00cc00';
+                ctx.fillRect(segment.x * GRID_SIZE, segment.y * GRID_SIZE, GRID_SIZE - 1, GRID_SIZE - 1);
+            });
+
+            // Draw food
+            ctx.fillStyle = '#ff0000';
+            ctx.fillRect(food.x * GRID_SIZE, food.y * GRID_SIZE, GRID_SIZE - 1, GRID_SIZE - 1);
+        }
+
+        function gameLoop() {
+            update();
+            draw();
+        }
+
+        // Input handling
+        document.addEventListener('keydown', (e) => {
+            if (gameOver && e.key.toLowerCase() === 'r') {
+                restartGame();
+                return;
+            }
+
+            switch(e.key.toLowerCase()) {
+                case 'w':
+                case 'arrowup':
+                    if (direction.y !== 1) direction = { x: 0, y: -1 };
+                    break;
+                case 's':
+                case 'arrowdown':
+                    if (direction.y !== -1) direction = { x: 0, y: 1 };
+                    break;
+                case 'a':
+                case 'arrowleft':
+                    if (direction.x !== 1) direction = { x: -1, y: 0 };
+                    break;
+                case 'd':
+                case 'arrowright':
+                    if (direction.x !== -1) direction = { x: 1, y: 0 };
+                    break;
+            }
+        });
+
+        function restartGame() {
+            initGame();
+        }
+
+        function showInstructions() {
+            alert('Controls:\n\nWASD or Arrow Keys - Move snake\nR - Restart game\n\nEat the red food to grow and score points!\nAvoid walls and yourself.');
+        }
+
+        // Start the game
+        initGame();
+        setInterval(gameLoop, gameSpeed);
+    </script>
+</body>
+</html>

@@ -1,0 +1,14 @@
+services:
+  - type: web
+    name: rustysnake-game
+    env: docker
+    buildCommand: "."
+    dockerfile: "./rustysnake-game/Dockerfile"
+    envVars:
+      - key: RUST_LOG
+        value: "info"
+    plan: free  # Change to 'standard' for production
+    numInstances: 1
+    regions: ["oregon"]  # Choose your preferred region
+    healthCheckPath: /  # Basic health check path
+    autoDeploy: true  # Auto-deploy on push to main branch
