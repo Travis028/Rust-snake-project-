@@ -1,67 +1,16 @@
-[package]
-name = "rustysnake-app"
-version = "0.1.0"
-edition = "2021"
-
 [dependencies]
+eframe = { version = "0.24", features = ["persistence"] }
 egui = "0.24"
-eframe = "0.24"
-rand = "0.8"
 serde = { version = "1.0", features = ["derive"] }
 serde_json = "1.0"
-ron = "0.8"
-chrono = "0.4"
+chrono = { version = "0.4", features = ["serde"] }
+rodio = "0.17"
+anyhow = "1.0"
+thiserror = "1.0"
+log = "0.4"
+env_logger = "0.10"
+rand = "0.8"
 
 [features]
-default = ["rodio/rodio-null"]
-rodio-backend = ["rodio/default"]
-
-[dependencies.rodio]
-version = "0.17"
-default-features = false
-features = ["wav", "vorbis"]
-
-[features]
-default = ["rodio/rodio-null"]
-rodio-backend = ["rodio/default"]
-
-[dependencies.rodio]
-version = "0.17"
-default-features = false
-features = ["wav", "vorbis"]
-
-[features]
-default = ["rodio/rodio-null"]
-rodio-backend = ["rodio/default"]
-
-[dependencies.rodio]
-version = "0.17"
-default-features = false
-features = ["wav", "vorbis"]
-
-[features]
-default = ["rodio/rodio-null"]
-rodio-backend = ["rodio/default"]
-
-[dependencies.rodio]
-version = "0.17"
-default-features = false
-features = ["wav", "vorbis"]
-
-[features]
-default = ["rodio/rodio-null"]
-rodio-backend = ["rodio/default"]
-
-[dependencies.rodio]
-version = "0.17"
-default-features = false
-features = ["wav", "vorbis"]
-
-[features]
-default = ["rodio/rodio-null"]
-rodio-backend = ["rodio/default"]
-
-[dependencies.rodio]
-version = "0.17"
-default-features = false
-features = ["wav", "vorbis"]
+default = ["persistence"]
+persistence = ["eframe/persistence"]

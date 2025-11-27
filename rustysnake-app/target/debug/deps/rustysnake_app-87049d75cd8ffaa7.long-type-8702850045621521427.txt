@@ -1,0 +1,56 @@
+(T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11)
+(T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12)
+(T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13)
+(T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14)
+(T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15)
+atspi_common::events::EventListenerDeregisteredEvent
+atspi_common::events::EventListenerRegisteredEvent
+atspi_common::events::document::AttributesChangedEvent
+atspi_common::events::document::ContentChangedEvent
+atspi_common::events::document::LoadCompleteEvent
+atspi_common::events::object::ActiveDescendantChangedEvent
+atspi_common::events::object::AttributesChangedEvent
+atspi_common::events::object::ChildrenChangedEvent
+atspi_common::events::object::ColumnInsertedEvent
+atspi_common::events::object::ColumnReorderedEvent
+atspi_common::events::object::PropertyChangeEvent
+atspi_common::events::object::SelectionChangedEvent
+atspi_common::events::object::TextAttributesChangedEvent
+atspi_common::events::object::TextBoundsChangedEvent
+atspi_common::events::object::TextCaretMovedEvent
+atspi_common::events::object::TextSelectionChangedEvent
+atspi_common::events::object::VisibleDataChangedEvent
+atspi_common::events::terminal::ApplicationChangedEvent
+atspi_common::events::terminal::CharWidthChangedEvent
+atspi_common::events::terminal::ColumnCountChangedEvent
+atspi_common::events::terminal::LineCountChangedEvent
+atspi_common::events::window::DesktopDestroyEvent
+atspi_common::events::window::PropertyChangeEvent
+atspi_proxies::accessible::AccessibleProxyBlocking<'c>
+atspi_proxies::application::ApplicationProxyBlocking<'c>
+atspi_proxies::collection::CollectionProxyBlocking<'c>
+atspi_proxies::component::ComponentProxyBlocking<'c>
+atspi_proxies::device_event_controller::DeviceEvent<'a>
+atspi_proxies::device_event_controller::DeviceEventControllerProxy<'c>
+atspi_proxies::device_event_controller::DeviceEventControllerProxyBlocking<'c>
+atspi_proxies::device_event_controller::EventListenerMode
+atspi_proxies::device_event_controller::EventType
+atspi_proxies::device_event_controller::KeyDefinition<'a>
+atspi_proxies::device_event_controller::KeySynthType
+atspi_proxies::device_event_listener::DeviceEventListenerProxy<'c>
+atspi_proxies::device_event_listener::DeviceEventListenerProxyBlocking<'c>
+atspi_proxies::document::DocumentProxyBlocking<'c>
+atspi_proxies::editable_text::EditableTextProxy<'c>
+atspi_proxies::editable_text::EditableTextProxyBlocking<'c>
+atspi_proxies::hyperlink::HyperlinkProxyBlocking<'c>
+atspi_proxies::hypertext::HypertextProxyBlocking<'c>
+atspi_proxies::registry::RegistryProxyBlocking<'c>
+atspi_proxies::selection::SelectionProxyBlocking<'c>
+atspi_proxies::table_cell::TableCellProxyBlocking<'c>
+rustix::backend::event::epoll::_::InternalBitFlags
+rustix::backend::event::poll_fd::_::InternalBitFlags
+rustix::backend::event::types::_::InternalBitFlags
+rustix::backend::fs::inotify::_::InternalBitFlags
+rustix::backend::net::send_recv::_::InternalBitFlags
+serde_json::Map<std::string::String, serde_json::Value>
+zbus_names::well_known_name::WellKnownName<'name>

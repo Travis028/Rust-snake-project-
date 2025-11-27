@@ -7,19 +7,38 @@ pub fn show(app: &mut SnakeApp, ctx: &egui::Context) {
         
         ui.add_space(20.0);
         
-        // Volume control
-        ui.label("Volume:");
-        ui.add(egui::Slider::new(&mut app.config.volume, 0.0..=1.0)
-            .show_value(false)
-            .text("🔊"));
+        ui.label("Game Speed:");
+        ui.add(egui::Slider::new(&mut app.config.game_speed, 50..=300).suffix("ms"));
         
-        // Update volume when slider changes
-        if ui.button("Apply Volume").clicked() {
-            app.update_volume();
-        }
+        ui.add_space(10.0);
+        
+        ui.label("Board Size:");
+        ui.horizontal(|ui| {
+            ui.add(egui::Slider::new(&mut app.config.board_width, 10..=30).suffix("width"));
+            ui.add(egui::Slider::new(&mut app.config.board_height, 10..=20).suffix("height"));
+        });
+        
+        ui.add_space(10.0);
+        
+        ui.checkbox(&mut app.config.sound_enabled, "🔊 Sound Effects");
         
         ui.add_space(20.0);
         
-        // Rest of the settings...
+        ui.horizontal(|ui| {
+            if ui.button("💾 Save").clicked() {
+                app.config.save().ok();
+                ui.close_menu();
+            }
+            
+            if ui.button("🚫 Cancel").clicked() {
+                // Reload original config
+                app.config = crate::app::config::AppConfig::load().unwrap_or_default();
+                app.current_screen = crate::app::state::AppScreen::MainMenu;
+            }
+            
+            if ui.button("🏠 Main Menu").clicked() {
+                app.current_screen = crate::app::state::AppScreen::MainMenu;
+            }
+        });
     });
 }
