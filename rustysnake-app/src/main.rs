@@ -2,6 +2,7 @@ mod app;
 mod game;
 mod data;
 mod utils;
+mod audio;
 
 use app::SnakeApp;
 use eframe::egui;
@@ -17,6 +18,11 @@ fn main() -> Result<(), eframe::Error> {
     eframe::run_native(
         "RustySnake",
         options,
-        Box::new(|_cc| Box::<SnakeApp>::default()),
+        Box::new(|cc| {
+            // Initialize audio manager
+            let audio = std::sync::Arc::new(std::sync::Mutex::new(audio::AudioManager::new()));
+            let app = SnakeApp::new(audio);
+            Box::new(app)
+        }),
     )
 }
