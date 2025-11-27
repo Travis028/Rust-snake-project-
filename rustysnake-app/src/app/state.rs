@@ -1,9 +1,11 @@
 use super::config::AppConfig;
 use super::ui;
+use crate::audio::AudioManager;
 use crate::data::leaderboard::Leaderboard;
 use crate::game::core::Game;
 use crate::utils::themes::ThemeManager;
 use eframe::{egui, App, Frame};
+use std::sync::{Arc, Mutex};
 
 #[derive(PartialEq)]
 pub enum AppScreen {
@@ -20,21 +22,24 @@ pub struct SnakeApp {
     pub config: AppConfig,
     pub leaderboard: Leaderboard,
     pub theme_manager: ThemeManager,
+    pub audio_manager: Arc<Mutex<AudioManager>>,
     pub is_playing: bool,
 }
 
-impl Default for SnakeApp {
-    fn default() -> Self {
+impl SnakeApp {
+    pub fn new(audio_manager: Arc<Mutex<AudioManager>>) -> Self {
         Self {
             current_screen: AppScreen::MainMenu,
             game: Game::new(),
             config: AppConfig::load().unwrap_or_default(),
             leaderboard: Leaderboard::load().unwrap_or_default(),
             theme_manager: ThemeManager::default(),
+            audio_manager,
             is_playing: false,
         }
     }
 }
+
 
 impl App for SnakeApp {
     fn update(&mut self, ctx: &egui::Context, _frame: &mut Frame) {
@@ -53,8 +58,6 @@ impl App for SnakeApp {
     }
 }
 
-
-impl SnakeApp {
     pub fn start_game(&mut self) {
         self.game = Game::new_with_config(&self.config);
         self.current_screen = AppScreen::Gameplay;
@@ -71,6 +74,9 @@ impl SnakeApp {
     
     pub fn game_over(&mut self) {
         if self.is_playing {
+            if self.config.sound_enabled {
+                self.audio_manager.lock().unwrap().play(crate::audio::SoundEffect::GameOver);
+            }
             self.leaderboard.add_score("Player", self.game.score);
             self.leaderboard.save().ok();
             self.is_playing = false;

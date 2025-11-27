@@ -1,5 +1,6 @@
 use rand::Rng;
 use crate::app::config::AppConfig;
+use crate::audio::SoundEffect;
 use std::time::{Duration, Instant};
 
 #[derive(Clone, Copy, PartialEq)]
@@ -68,11 +69,12 @@ impl Game {
         }
     }
 
-    pub fn update(&mut self) {
+    pub fn update(&mut self) -> Option<SoundEffect> {
         if self.game_over {
-            return;
+            return None;
         }
         
+        let mut sound_to_play = None;
         if self.last_update.elapsed() >= self.update_interval {
             // Calculate new head position
             let head = self.snake[0];
@@ -82,28 +84,35 @@ impl Game {
             // Check collision with walls
             if new_head_x < 0 || new_head_x >= self.width as i32 || new_head_y < 0 || new_head_y >= self.height as i32 {
                 self.game_over = true;
-                return;
+                return Some(SoundEffect::GameOver);
             }
+
+            let new_head = Position {
+                x: new_head_x as usize,
+                y: new_head_y as usize,
+            };
             
             // Check collision with self
             if self.snake.contains(&new_head) {
                 self.game_over = true;
-                return;
+                return Some(SoundEffect::GameOver);
             }
             
             // Move snake
             self.snake.insert(0, new_head);
             
             // Check if food eaten
-            if new_head.x == self.food.x && new_head.y == self.food.y {
+            if new_head == self.food {
                 self.score += 10;
                 self.place_food();
+                sound_to_play = Some(SoundEffect::Eat);
             } else {
                 self.snake.pop();
             }
             
             self.last_update = Instant::now();
         }
+        sound_to_play
     }
     
     pub fn change_direction(&mut self, direction: (i32, i32)) {

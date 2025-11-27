@@ -20,8 +20,8 @@ fn main() -> Result<(), eframe::Error> {
         options,
         Box::new(|cc| {
             // Initialize audio manager
-            let audio = std::sync::Arc::new(std::sync::Mutex::new(audio::AudioManager::new()));
-            let app = SnakeApp::new(audio);
+            let audio_manager = std::sync::Arc::new(std::sync::Mutex::new(audio::AudioManager::new()));
+            let app = SnakeApp::new(audio_manager);
             Box::new(app)
         }),
     )
